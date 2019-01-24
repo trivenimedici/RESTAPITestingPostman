@@ -62,6 +62,8 @@ Running the tests from command line use newman:
 
 install node.js
 
+install newman ysing command :  npm install -g newman
+
 Download the json file to the local
 
 go the command line and enter the below command:

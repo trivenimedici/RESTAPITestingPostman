@@ -1,0 +1,465 @@
+{
+	"info": {
+		"_postman_id": "c14e9f99-a8ed-46c1-9186-7f5431ca9b87",
+		"name": "TestRESTAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Requests",
+			"item": [
+				{
+					"name": "List Resource",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "08e4190b-8f61-4365-ac6a-8459a8de7ec6",
+								"exec": [
+									"pm.test(\"Verify Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1500);",
+									"});",
+									"",
+									"pm.test(\"Verify if Response body contains data from page 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.page).to.eql(1);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/unknown",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"unknown"
+							]
+						},
+						"description": "This is get request that will list all the avialable resources in the page 1"
+					},
+					"response": []
+				},
+				{
+					"name": "Single Resource",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "95e9ad35-be15-4549-a46e-5445670b3541",
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/unknown/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"unknown",
+								"2"
+							]
+						},
+						"description": "This is get request that will list all the avialable users in the page 2"
+					},
+					"response": []
+				},
+				{
+					"name": "Single User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437ff8f3-495c-4e4c-9764-fdbe23ac09be",
+								"exec": [
+									"pm.test(\"response should be okay to process\", function () { \r",
+									"    pm.response.to.not.be.error; \r",
+									"    pm.response.to.have.jsonBody(\"data\"); \r",
+									"    pm.response.to.not.have.jsonBody(\"error\"); \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/users/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						},
+						"description": "gives the single user details"
+					},
+					"response": []
+				},
+				{
+					"name": "User not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c1672d60-cdd7-492f-a030-cc1cea85ec4e",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/users/23",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"23"
+							]
+						},
+						"description": "This request tries to access the user which is not present and get the bad data error"
+					},
+					"response": []
+				},
+				{
+					"name": "Resource not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ecaf7597-b7f4-460c-a81f-f6f3536ea614",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/unknown/23",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"unknown",
+								"23"
+							]
+						},
+						"description": "This request tries to access the user which is not present and get the bad data error"
+					},
+					"response": []
+				},
+				{
+					"name": "List User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "072bf17a-1d0f-4d71-88a9-c3baeed61d65",
+								"exec": [
+									"pm.test(\"Total pages are 4\", function () {",
+									"    pm.response.to.have.body('{\"page\":2,\"per_page\":3,\"total\":12,\"total_pages\":4,\"data\":[{\"id\":4,\"first_name\":\"Eve\",\"last_name\":\"Holt\",\"avatar\":\"https://s3.amazonaws.com/uifaces/faces/twitter/marcoramires/128.jpg\"},{\"id\":5,\"first_name\":\"Charles\",\"last_name\":\"Morris\",\"avatar\":\"https://s3.amazonaws.com/uifaces/faces/twitter/stephenmoon/128.jpg\"},{\"id\":6,\"first_name\":\"Tracey\",\"last_name\":\"Ramos\",\"avatar\":\"https://s3.amazonaws.com/uifaces/faces/twitter/bigmancho/128.jpg\"}]}');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/users?page=2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post Requests",
+			"item": [
+				{
+					"name": "Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "07f73def-96c2-4340-a530-ce828a925b26",
+								"exec": [
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register -successful",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f3e199d0-4291-4dfe-9b43-fc2dd282648a",
+								"exec": [
+									"\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,202]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"register"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": ""
+								}
+							]
+						},
+						"description": "This is get request that will list all the avialable users in the page 2"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete",
+			"item": [
+				{
+					"name": "delete user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9b8b3567-6726-4ec7-86a9-38831cb37ca9",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/users/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Patch",
+			"item": [
+				{
+					"name": "Update user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9235582a-842b-4c51-9157-b70a57d52379",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Verify if the record is updated\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"updatedAt\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/users/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "aafc5ce1-4268-4d71-8584-244b5da2c410",
+				"type": "text/javascript",
+				"exec": [
+					"let urlVar =pm.variables.get('url');",
+					"console.log(\"Value for urlvar is \"+ urlVar);",
+					"pm.variables.set(\"name\",\"Postman\");",
+					"console.log(pm.variables.get(\"name\",\"Postman\"));",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "ddfd406a-cafc-4d43-8eb0-47c24132cd82",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "db09b0f2-9e9d-42fe-97fa-1b507349f3f0",
+			"key": "url",
+			"value": "https://reqres.in",
+			"type": "string"
+		}
+	]
+}
